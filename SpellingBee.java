@@ -11,10 +11,12 @@ public class SpellingBee {
     private static final int reqScore = 200; 
     private static List<String> panagrams;
     private static List<String> words;
+    private static Scanner scanner = new Scanner(System.in);
+    private static String input = "";
 
     static {
         try {
-            SpellingBee.panagrams = Files.readAllLines(Paths.get("panagram.txt"));
+            SpellingBee.panagrams = Files.readAllLines(Paths.get("panagrams.txt"));
             SpellingBee.words = Files.readAllLines(Paths.get("words.txt"));
         } catch(IOException error) {
             error.printStackTrace();
@@ -29,16 +31,13 @@ public class SpellingBee {
 
     public SpellingBee() {
         System.out.println("Type " + SpellingBee.exitSyntax + " to exit");
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        while (this.score < SpellingBee.reqScore && !input.equals(SpellingBee.exitSyntax)) {
+        while (this.score < SpellingBee.reqScore && !SpellingBee.input.equals(SpellingBee.exitSyntax)) {
             printStats();
-            if (!scanner.hasNextLine()) {
+            if (!SpellingBee.scanner.hasNextLine()) {
                 break;
             }
-            input = scanner.nextLine();
-            input = input.trim().toLowerCase();
-            this.score += getGuess(input);
+            SpellingBee.input = SpellingBee.scanner.nextLine().trim().toLowerCase();
+            this.score += getGuess(SpellingBee.input);
         }
         if (this.score >= SpellingBee.reqScore) {
             System.out.println(this.score);
@@ -46,6 +45,9 @@ public class SpellingBee {
         } else {
             System.out.println("Exiting...");
         }
+
+        SpellingBee.input = "";
+        new SpellingBee();
     }
 
     private boolean binary(List<String> words, String target, int low, int high) {

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class SpellingBee {
     private static final String exitSyntax = "0";
-    private static final int reqScore = 200; 
+    private static final int reqScore = 100; 
     private static List<String> panagrams;
     private static List<String> words;
     private static Scanner scanner = new Scanner(System.in);

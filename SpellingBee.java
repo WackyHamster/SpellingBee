@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class SpellingBee {
     private static final String exitSyntax = "0";
-    private static final int reqScore = 100; 
     private static List<String> panagrams;
     private static List<String> words;
     private static Scanner scanner = new Scanner(System.in);
@@ -28,19 +27,43 @@ public class SpellingBee {
     private final String comb = makeComb();
     private final ArrayList<String> guessed = new ArrayList<>();
     private int score = 0;
+    private int maxWords;
+    private int maxScore;
+    private int reqScore;
 
     public SpellingBee() {
+        int max = 0;
+        int count = 0;
+        for(String val : SpellingBee.words) {
+            int add = getGuess(val, false);
+            if (add > 0) {
+                count++;
+                max += add;
+                //System.out.println("+" + add + "; " + val);
+            }
+        }
+        this.maxWords = count;
+        this.maxScore = max;
+        this.reqScore = (int) (1360 / (1 + Math.pow(Math.E,-(0.0045*this.maxScore - 4.5))) + 14);
+        if (this.reqScore > this.maxScore) {
+            this.reqScore = this.maxScore;
+        }
+
         System.out.println("Type " + SpellingBee.exitSyntax + " to exit");
-        while (this.score < SpellingBee.reqScore && !SpellingBee.input.equals(SpellingBee.exitSyntax)) {
+        System.out.println(this.maxWords + " words");
+        System.out.println(this.maxScore + " points possible");
+        while (this.score < this.reqScore) {
             printStats();
             if (!SpellingBee.scanner.hasNextLine()) {
                 break;
             }
             SpellingBee.input = SpellingBee.scanner.nextLine().trim().toLowerCase();
-            this.score += getGuess(SpellingBee.input);
+            if (SpellingBee.input.equals(SpellingBee.exitSyntax)) {
+                break;
+            }
+            this.score += getGuess(SpellingBee.input, true);
         }
-        if (this.score >= SpellingBee.reqScore) {
-            System.out.println(this.score);
+        if (this.score >= this.reqScore) {
             System.out.println("Comb Complete!");
         } else {
             System.out.println("Exiting...");
@@ -87,48 +110,53 @@ public class SpellingBee {
         }
         return count;
     }
-    private int panagramBonus(String guess) {
+    private int panagramBonus(String guess, boolean isGuess) {
         StringBuilder letterChecker = new StringBuilder();
         for (int i = 0; i < this.letters.length(); i++) {
             letterChecker.append("(?=.*").append(this.letters.charAt(i)).append(")");
         }
         letterChecker.append(".*");
         if (guess.matches(letterChecker.toString())) {
-            System.out.println("Panagram!");
+            if (isGuess) {
+                System.out.println("Panagram!");
+            }
             return 2;
         } else {
             return 1;
         }
     }
-    private int getGuess(String guess) {
+    private int getGuess(String guess, boolean isGuess) {
         if (binary(SpellingBee.words, guess, 0, SpellingBee.words.size() - 1)) {
             if (!binary(this.guessed, guess, 0, this.guessed.size() - 1)) {
                 if (guess.matches("[" + this.letters + "]+")) {
                     if (guess.contains(String.valueOf(this.center))) {
-                        this.guessed.add(guess);
-                        Collections.sort(this.guessed);
-                        int points = panagramBonus(guess) * (guess.length() + occurrences(guess, this.center) - 1);
-                        System.out.println("+" + points);
+                        int points = panagramBonus(guess, isGuess) * (guess.length() + occurrences(guess, this.center) - 1);
+                        if (isGuess) {
+                            this.guessed.add(guess);
+                            Collections.sort(this.guessed);
+                            System.out.println("+" + points);
+                        }
                         return points;
-                    } else {
+                    } else if (isGuess) {
                         System.out.println("Must contain center letter");
                     }
-                } else {
+                } else if (isGuess) {
                     System.out.println("May only contain provided letters");
                 }
-            } else {
+            } else if (isGuess) {
                 System.out.println("Already guessed" + "\n" + "Guessed: ");
                 for (String val : this.guessed) {
                     System.out.print(val + " ");
                 }
                 System.out.println();
             }
-        } else {
+        } else if (isGuess) {
             System.out.println("Not in word list");
         }
         return 0;
     }
     private void printStats() {
-        System.out.println(this.comb + "\n" + "Score: " + this.score);
+        System.out.println(this.comb + "\n" + "Score: " + this.score + " / " + this.reqScore + "\n" + "Words: " + this.guessed.size() + " / " + this.maxWords);
+        //System.out.println(this.letters);
     }
 }

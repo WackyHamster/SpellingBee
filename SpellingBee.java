@@ -44,7 +44,7 @@ public class SpellingBee {
         }
         this.maxWords = count;
         this.maxScore = max;
-        this.reqScore = (int) (1360 / (1 + Math.pow(Math.E,-(0.0045*this.maxScore - 4.5))) + 14);
+        this.reqScore = (int) Math.round(this.maxScore / 4.0 + 800 / (1 + Math.pow(Math.E,-(0.0018*this.maxScore - 5.5))));
         if (this.reqScore > this.maxScore) {
             this.reqScore = this.maxScore;
         }

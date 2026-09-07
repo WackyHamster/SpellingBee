@@ -135,7 +135,7 @@ public class SpellingBee {
                         System.out.println("Must contain center letter");
                     }
                 } else if (isGuess) {
-                    System.out.println("May only contain provided panagram");
+                    System.out.println("May only contain provided letters");
                 }
             } else if (isGuess) {
                 System.out.println("Already guessed" + "\n" + "Guessed: ");

@@ -1840,8 +1840,6 @@ afterword
 afterwords
 afterworld
 aftmost
-agaÃ§ant
-agaÃ§ante
 again
 against
 agalactia
@@ -1922,9 +1920,11 @@ aggrating
 aggravate
 aggravated
 aggravates
+aggravating
 aggregate
 aggregated
 aggregates
+aggregating
 aggress
 aggressed
 aggresses
@@ -34701,6 +34701,7 @@ endamoebae
 endanger
 endangered
 endangerer
+endangering
 endangers
 endarch
 endart
@@ -34954,6 +34955,7 @@ engine
 engined
 engineer
 engineered
+engineering
 engineers
 enginery
 engines
@@ -42238,7 +42240,6 @@ fragrancy
 fragrant
 fragrantly
 frags
-fraÓcheur
 frail
 frailer
 frailest
@@ -42332,8 +42333,6 @@ fraudsters
 fraudulent
 fraught
 fraughtage
-fr‰ulein
-fr‰uleins
 fraus
 fray
 frayed

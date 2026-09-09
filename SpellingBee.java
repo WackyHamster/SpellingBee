@@ -51,9 +51,12 @@ public class SpellingBee {
 
         System.out.println("Type " + SpellingBee.menuSyntax + " for menu" + "\n" + this.maxWords + " words" + "\n" + this.maxScore + " points possible");
         printStats();
-        while (this.score < this.reqScore && !SpellingBee.input.equals(SpellingBee.menuSyntax) && SpellingBee.scanner.hasNextLine()) {
+        while (this.score < this.reqScore && SpellingBee.scanner.hasNextLine()) {
             
             SpellingBee.input = SpellingBee.scanner.nextLine().trim().toLowerCase();
+            if (SpellingBee.input.equals(SpellingBee.menuSyntax)) {
+                break;
+            }
             this.score += getValue(SpellingBee.input, true);
             printStats();
         }
